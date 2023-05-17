@@ -15,7 +15,7 @@ function createContentPrompt(imagine) {
 		throw new Error("User request is required to create a content prompt.")
 	}
 
-	return `Make a short blog of fewer than 500 words with this user request:
+	return `Make a short blog of fewer than 700 words with this user request:
     \n
     ${imagine}
     \n
