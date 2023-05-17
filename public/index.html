@@ -16,6 +16,7 @@
         const [formState, setFormState] = React.useState({ prompt: "" });
         const [result, setResult] = React.useState(null);
         const [image, setImage] = React.useState(null);
+        const [isLoading, setIsLoading] = React.useState(false);
 
         const handleInputChange = (event) => {
           setFormState({
@@ -26,6 +27,7 @@
 
         const handleSubmit = async (event) => {
           event.preventDefault();
+          setIsLoading(true);
           const response = await fetch("/api/generate", {
             method: "POST",
             headers: {
@@ -36,6 +38,7 @@
           const data = await response.json();
           const dataJSON = JSON.parse(data.content.content);
           setResult(dataJSON);
+          setIsLoading(false);
         };
 
         return (
@@ -62,12 +65,16 @@
                 Generate
               </button>
             </form>
-            {result && (
+            {isLoading ? (
+              <div className="flex justify-center items-center">
+                <img src="/infinity-1s-200px.svg" alt="Generate..." />
+              </div>
+            ) : result ? (
               <div className="mt-10">
                 <h2 className="text-2xl font-bold">{result.title}</h2>
                 <p className="mt-4">{result.content}</p>
               </div>
-            )}
+            ) : null}
           </div>
         );
       }
