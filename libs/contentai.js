@@ -1,5 +1,8 @@
 import { OpenAIApi, Configuration } from "openai"
-import { generateImageAI, getImageAIByID } from "../libs/imageai"
+
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 const configuration = new Configuration({
 	apiKey: process.env.OPENAI_API_KEY,

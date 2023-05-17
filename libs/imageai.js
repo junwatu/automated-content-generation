@@ -1,3 +1,8 @@
+
+import * as dotenv from 'dotenv'
+
+dotenv.config()
+
 async function generateImageAI(prompt) {
 	const response = await fetch("https://api.replicate.com/v1/predictions", {
 		method: "POST",
