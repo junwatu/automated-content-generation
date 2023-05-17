@@ -1,16 +1,21 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import * as dotenv from 'dotenv'
+import path, { dirname } from 'path'
+import { fileURLToPath } from 'node:url'
 
 import { generateRoute } from './routes/generate.js'
 import { imageRoute } from './routes/image.js'
 
 dotenv.config()
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json())
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/generate', generateRoute)
 app.use('/api/image', imageRoute)
 
