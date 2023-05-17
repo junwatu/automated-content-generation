@@ -1,6 +1,6 @@
 # Automated Content Generation
 
-set API keys on `env.local` file
+Rename `.env.example` to `.env` and then set the API keys:
 
 ```
 OPENAI_API_KEY=
