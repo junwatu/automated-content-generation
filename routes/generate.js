@@ -1,5 +1,5 @@
 import express from 'express'
-import { } from '../libs/contentai'
+import { generateContent } from '../libs/contentai.js'
 
 export const generateRoute = express.Router();
 
