@@ -135,7 +135,7 @@ For the full source code you can look into this GitHub [repository](http://setit
 ```
 git clone https://repository
 
-cd automated-generated-content
+cd automated-content-generation
 ```
 
 after that make sure you rename file `env.local.example` to `env.local` and then set every API keys there. To run the project type this simple command
