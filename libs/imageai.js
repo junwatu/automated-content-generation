@@ -21,22 +21,40 @@ async function generateImageAI(prompt) {
 };
 
 async function getImageAIByID(id) {
-	const response = await fetch(
-		"https://api.replicate.com/v1/predictions/" + id,
-		{
-			headers: {
-				Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
-				"Content-Type": "application/json",
-			},
+	let prediction;
+	// timeout in milliseconds
+	const timeout = 15000;
+	const endTime = Date.now() + timeout;
+
+	while (Date.now() < endTime) {
+		const response = await fetch(
+			"https://api.replicate.com/v1/predictions/" + id,
+			{
+				headers: {
+					Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		if (response.status !== 200) {
+			let error = await response.json();
+			return JSON.stringify({ detail: error.detail });
 		}
-	);
-	if (response.status !== 200) {
-		let error = await response.json();
-		return JSON.stringify({ detail: error.detail });
+
+		prediction = await response.json();
+
+		if (prediction.status === 'succeeded') {
+			return JSON.stringify(prediction);
+		}
+
+		// Wait before making another request
+		await new Promise(resolve => setTimeout(resolve, 1000));
 	}
 
-	const prediction = await response.json();
+	// Return the last prediction if it's still not 'succeeded' after the timeout
 	return JSON.stringify(prediction);
 }
+
 
 export { generateImageAI, getImageAIByID }
