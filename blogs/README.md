@@ -130,10 +130,10 @@ At present, GridDB is compatible with Linux-based operating systems. However, if
 
 ### Run The Project
 
-For the full source code you can look into this GitHub [repository](http://setitlater). To run the project, first clone the repository and then install all the dependencies.
+For the full source code you can look into this GitHub [repository](https://github.com/junwatu/automated-content-generation). To run the project, first clone the repository and then install all the dependencies.
 
 ```
-git clone https://repository
+git clone https://github.com/junwatu/automated-content-generation.git
 
 cd automated-content-generation
 ```
