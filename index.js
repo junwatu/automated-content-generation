@@ -1,13 +1,11 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import * as dotenv from 'dotenv'
 import path, { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { generateRoute } from './routes/generate.js'
 import { imageRoute } from './routes/image.js'
 
-dotenv.config()
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
