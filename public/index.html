@@ -1,11 +1,73 @@
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Automated Content Generation</title>
-</head>
-<body>
-	
-</body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Automated Content Generation</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div id="root" class="p-10 m-10">
+	</div>
+    <script type="text/babel">
+    
+      function App() {
+        const [formState, setFormState] = React.useState({ prompt: '' });
+
+        const handleInputChange = (event) => {
+          setFormState({
+            ...formState,
+            [event.target.name]: event.target.value
+          });
+        };
+
+        const handleSubmit = async (event) => {
+          event.preventDefault();
+          const response = await fetch('/api/url', {  // replace '/api/url' with your actual API URL
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formState)
+          });
+          const data = await response.json();
+          console.log(data);
+        };
+
+        return (
+		<div>
+		  <h1 class="text-3xl font-bold text-center">Automated Content Generation</h1> 
+          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row md:items-center gap-4 m-5">
+            <input
+              type="text"
+              name="prompt"
+              value={formState.prompt}
+              onChange={handleInputChange}
+			  class="flex-grow py-2 px-4 border border-gray-300 rounded shadow-sm"
+              placeholder="What's the topic and key messages you want in your content?"
+            />
+			<button type="submit" class="py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600">Generate</button>
+          </form>
+		  </div>
+        );
+      }
+
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+    <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      Read this page for starting a new React project with JSX:
+      https://react.dev/learn/start-a-new-react-project
+
+      Read this page for adding React with JSX to an existing project:
+      https://react.dev/learn/add-react-to-an-existing-project
+    -->
+  </body>
 </html>
