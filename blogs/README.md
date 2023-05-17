@@ -1,4 +1,4 @@
-# [DRAFT] Automated Website Content Generation using ChatGPT, Stable Diffusion, GridDB, and Next.js
+# [DRAFT] Automated Website Content Generation using ChatGPT, Stable Diffusion, GridDB, and Node.js
 
 In today's digital era, the creation of high-quality, engaging, and relevant content has become crucial for businesses and organizations to attract and retain their target audience. Content generation involves a wide range of activities, from writing articles and blog posts to crafting social media updates and marketing materials. As the demand for content continues to grow, manual content creation can become increasingly time-consuming and labor-intensive, often leading to delays and inconsistencies in output quality.
 
@@ -18,7 +18,7 @@ Automated content generation offers a solution to these challenges by leveraging
 
 Choosing the right technology stack can be quite a challenge. It really hinges on your business needs, the platform you're working with, and the budget you've got at hand. When it comes to automated content generation, JavaScript comes out as a pretty solid pick for development. What's cool about JavaScript is that you can use it for both front-end and back-end development. This means you get to cut down on development time and cost, which is always a win.
 
-For the automation content generation we use these four main technologies: **GPT-4**, **Stable Diffusion**, **GridDB**, and **Next.js**.
+For the automation content generation we use these four main technologies: **GPT-4**, **Stable Diffusion**, **GridDB**, and **Node.js**.
 
 ### GPT-4
 
@@ -32,9 +32,9 @@ Stable diffusion is a deep learning, text-to-image model released in 2022. It is
 
 GridDB is a highly scalable, in-memory time series database optimized for IoT and Big Data. Its in-memory data architecture coupled with parallel processing technology makes GridDB faster than any other time series databases. GridDB offers strong data consistency at the container level and provides ACID transaction guarantees similar to that of an RDB. Proprietary algorithms of GridDB allow nodes to be added on the fly online without having to stop the service or operation. Compared to other NoSQL databases, GridDB has the unique ability to handle IoT (Internet of Things) data thanks to its Key-Container data model.
 
-### Next.js
+### Node.js
 
-Next.js is a **React framework** that provides additional structure, features, and optimizations for your application. It handles the tooling and configuration needed for React. Next.js enables you to build superfast and extremely user-friendly static websites, as well as web applications using React. It is used by some of the world's largest companies.
+Node.js is an open-source, cross-platform JavaScript runtime environment used for executing JavaScript code outside of a web browser. It is built on Google’s V8 JavaScript engine, the same one used for processing in Chrome. Node.js is commonly used for building applications, working with modern web app frameworks, and server-side scripting with JS1. It is also great for data-intensive applications like streaming and real-time apps.
 
 ## What's Tough about Content Creation
 
@@ -70,9 +70,9 @@ The system we will build can be explained using the general system diagram below
 
 ![auto-generated-content-system](assets/images/auto-generated-content.png)
 
-The generated content depends on the user's input prompt. The user input interface is provided by a Next.js web application. Internally, Next.js will make an API call to OpenAI to generate the content text. It will also make a request to the Stable Diffusion model on Replicate to generate an image.
+The generated content depends on the user's input prompt. The user input interface is provided by a React.js web application. Internally, JavaScript will make an API call to OpenAI to generate the content text. It will also make a request to the Stable Diffusion model on Replicate to generate an image.
 
-Subsequently, the produced text and image are stored in GridDB. The stored data is then rendered for display via the Next.js application.
+Subsequently, the produced text and image are stored in GridDB. The stored data is then rendered for display via the node.js server application.
 
 ### GPT-4-based Content Generation
 
@@ -94,17 +94,13 @@ GridDB can play a pivotal role in supporting the content generation process. For
 
 By providing efficient and reliable data management, GridDB helps keep the content generation pipeline smooth and uninterrupted. It also assists in organizing the content effectively, making it easier to retrieve, update, and utilize the generated content as and when required.
 
-### Next.js for a seamless web development experience
+### React.js for a seamless web development experience
 
-Building and maintaining a dynamic and efficient web platform is a critical aspect of content management. It's not just about generating content, but also about presenting it effectively to the end user. This is where Next.js, a leading framework for React.js, comes into the picture.
+Building and maintaining a dynamic and efficient web platform is a critical aspect of content management. It's not just about generating content, but also about presenting it effectively to the end user. This is where React.js, comes into the picture.
 
-One of the key strengths of Next.js is its flexibility. Whether you're building a single-page application, a static blog, or a complex e-commerce site, Next.js can handle it. It's designed with performance in mind, ensuring your website is not only functional, but also fast and responsive.
+One of the key strengths of React.js is its flexibility. Whether you're building a single-page application, a static blog, or a complex e-commerce site, React.js can handle it. It's designed with performance in mind, ensuring your website is not only functional, but also fast and responsive.
 
-When it comes to content generation, Next.js can play a crucial role. Its server-side rendering capabilities can be leveraged to display the content generated by GPT-4, ensuring the content is served to the user quickly and efficiently.
-
-Next.js can also be integrated with GridDB for data handling, fetching the necessary data for content generation and storing the generated content for future use. This seamless integration allows for an efficient and dynamic content generation pipeline.
-
-In the following sections, we'll explore how these technologies - GPT-4, Stable Diffusion, GridDB, and Next.js - work together to create an automated content generation solution that is not only efficient, but also capable of producing high-quality, personalized content.
+In the following sections, we'll explore how these technologies - GPT-4, Stable Diffusion, GridDB, and Node.js - work together to create an automated content generation solution that is not only efficient, but also capable of producing high-quality, personalized content.
 
 ### Technical Setup
 
@@ -112,7 +108,7 @@ You will need a few setup before we dive into the code for automation content ge
 
 **Node.js**
 
-You'll need to set up a development environment using Node.js because Next.js development run on top of it. Go to https://nodejs.org to install it in your machine.
+You'll need to set up a development environment using Node.js. Go to https://nodejs.org to install it in your machine.
 
 > In this post we use Node.js 18.16.0 LTS version.
 
@@ -184,7 +180,4 @@ C. The potential impact on the future of website content management
 10. [GridDB FAQ's Documentation](https://docs.griddb.net/about/faq/)
 11. [What is GridDB?](https://docs.griddb.net/)
 12. [NoSQL Database for IoT Using GridDB Developers](https://www.griddb.net/)
-13. [What is Next.js? | Learn Next.js](https://nextjs.org/learn/foundations/about-nextjs/what-is-nextjs)
-14. [What is Next JS and Why Should You Use it in 2022?](https://pagepro.co/blog/what-is-nextjs/)
-15. [Next.js by Vercel - The React Framework for the Web](https://nextjs.org/)
-16. [Next.js Introduction - GeeksforGeeks](https://www.geeksforgeeks.org/next-js-introduction/)
+
