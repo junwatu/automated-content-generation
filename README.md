@@ -30,7 +30,4 @@ npm run dev
 
 Open the browser and got to the `http://localhost/3000`
 
-![automatic-content-generation-sc ](automatic-cg-screenshot.png)
-
-
-
+![automatic-content-generation-sc ](blogs/assets/images/automatic-cg-screenshot.png)
