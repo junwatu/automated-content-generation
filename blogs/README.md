@@ -146,7 +146,7 @@ npm run dev
 
 Last one, open the browser with this URL `http://localhost:2112`
 
-[Screenshot_is_Here]
+![automated-content-generation](assets/images/automatic-cg-screenshot.png)
 
 ---
 
@@ -180,4 +180,3 @@ C. The potential impact on the future of website content management
 10. [GridDB FAQ's Documentation](https://docs.griddb.net/about/faq/)
 11. [What is GridDB?](https://docs.griddb.net/)
 12. [NoSQL Database for IoT Using GridDB Developers](https://www.griddb.net/)
-
