@@ -15,6 +15,7 @@
       function App() {
         const [formState, setFormState] = React.useState({ prompt: "" });
         const [result, setResult] = React.useState(null);
+        const [image, setImage] = React.useState(null);
 
         const handleInputChange = (event) => {
           setFormState({
@@ -33,7 +34,8 @@
             body: JSON.stringify(formState),
           });
           const data = await response.json();
-          setResult(JSON.parse(data.content.content));
+          const dataJSON = JSON.parse(data.content.content);
+          setResult(dataJSON);
         };
 
         return (
