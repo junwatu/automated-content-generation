@@ -7,55 +7,70 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-	<script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <div id="root" class="p-10 m-10">
-	</div>
+    <div id="root" class="p-10 m-10"></div>
     <script type="text/babel">
-    
       function App() {
-        const [formState, setFormState] = React.useState({ prompt: '' });
+        const [formState, setFormState] = React.useState({ prompt: "" });
+        const [result, setResult] = React.useState(null);
 
         const handleInputChange = (event) => {
           setFormState({
             ...formState,
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
           });
         };
 
         const handleSubmit = async (event) => {
           event.preventDefault();
-          const response = await fetch('/api/generate', {  
-            method: 'POST',
+          const response = await fetch("/api/generate", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json'
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify(formState)
+            body: JSON.stringify(formState),
           });
           const data = await response.json();
-          console.log(data);
+          setResult(JSON.parse(data.content.content));
         };
 
         return (
-		<div>
-		  <h1 className="text-3xl font-bold text-center">Automated Content Generation</h1> 
-          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row md:items-center gap-4 m-5">
-            <input
-              type="text"
-              name="prompt"
-              value={formState.prompt}
-              onChange={handleInputChange}
-			  className="flex-grow py-2 px-4 border border-gray-300 rounded shadow-sm"
-              placeholder="What's the topic and key messages you want in your content?"
-            />
-			<button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600">Generate</button>
-          </form>
-		  </div>
+          <div>
+            <h1 className="text-3xl font-bold text-center">
+              Automated Content Generation
+            </h1>
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col md:flex-row md:items-center gap-4 m-5"
+            >
+              <input
+                type="text"
+                name="prompt"
+                value={formState.prompt}
+                onChange={handleInputChange}
+                className="flex-grow py-2 px-4 border border-gray-300 rounded shadow-sm"
+                placeholder="What's the topic and key messages you want in your content?"
+              />
+              <button
+                type="submit"
+                className="py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600"
+              >
+                Generate
+              </button>
+            </form>
+            {result && (
+              <div className="mt-10">
+                <h2 className="text-2xl font-bold">{result.title}</h2>
+                <p className="mt-4">{result.content}</p>
+              </div>
+            )}
+          </div>
         );
       }
 
-      const container = document.getElementById('root');
+      const container = document.getElementById("root");
       const root = ReactDOM.createRoot(container);
       root.render(<App />);
     </script>
