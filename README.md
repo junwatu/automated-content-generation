@@ -1,5 +1,7 @@
 # Automated Content Generation
 
+This project use OpenAI, Stable Diffusion (Replicate.com), GridDB, and Node.js
+
 ## Run the project
 
 Clone this repository
@@ -25,3 +27,4 @@ Run the project
 ```
 npm run dev
 ```
+
