@@ -26,7 +26,7 @@
 
         const handleSubmit = async (event) => {
           event.preventDefault();
-          const response = await fetch('/api/url', {  // replace '/api/url' with your actual API URL
+          const response = await fetch('/api/generate', {  // replace '/api/url' with your actual API URL
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -39,17 +39,17 @@
 
         return (
 		<div>
-		  <h1 class="text-3xl font-bold text-center">Automated Content Generation</h1> 
+		  <h1 className="text-3xl font-bold text-center">Automated Content Generation</h1> 
           <form onSubmit={handleSubmit} className="flex flex-col md:flex-row md:items-center gap-4 m-5">
             <input
               type="text"
               name="prompt"
               value={formState.prompt}
               onChange={handleInputChange}
-			  class="flex-grow py-2 px-4 border border-gray-300 rounded shadow-sm"
+			  className="flex-grow py-2 px-4 border border-gray-300 rounded shadow-sm"
               placeholder="What's the topic and key messages you want in your content?"
             />
-			<button type="submit" class="py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600">Generate</button>
+			<button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600">Generate</button>
           </form>
 		  </div>
         );
