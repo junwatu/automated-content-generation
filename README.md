@@ -28,3 +28,7 @@ Run the project
 npm run dev
 ```
 
+Open the browser and got to the `http://localhost/3000`
+
+
+
