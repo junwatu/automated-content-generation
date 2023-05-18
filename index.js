@@ -1,8 +1,8 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import * as GridDB from "./libs/griddb.cjs";
 import path, { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import * as GridDB from "./libs/griddb.cjs"
 import { generateRoute } from './routes/generate.js'
 import { imageRoute } from './routes/image.js'
 import { logger } from './libs/logger.js'
