@@ -19,7 +19,7 @@ function createContentPrompt(imagine) {
     \n
     ${imagine}
     \n
-    The answer should be a JSON only with the format {title: [insert_title], content: [insert_content], imageprompt: [summarize_content_for_image_generation]}. Do not answer with the context or any explanation.`;
+    The answer SHOULD be a JSON with the format {title: [insert_title], content: [insert_content], imageprompt: [summarize_content_for_image_generation]}. DO NOT answer with any context or any explanation!`;
 }
 
 async function generateContent(imagine) {
@@ -31,7 +31,16 @@ async function generateContent(imagine) {
 			messages: [{ role: "user", content: prompt }],
 		});
 		const message = completion.data.choices[0].message;
-		logger.info(message);
+		try {
+			const contentData = JSON.parse(message.content)
+			const imagePrompt = contentData?.imageprompt
+			logger.info(`prompt for generate image: ${imagePrompt}`)
+
+			//do image generation request
+
+		} catch (error) {
+			logger.error(error)
+		}
 		return message;
 	} catch (error) {
 		console.error("Error occurred while generating content:", error)
