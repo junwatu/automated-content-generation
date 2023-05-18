@@ -1,6 +1,6 @@
 # Automated Content Generation
 
-This project use OpenAI, Stable Diffusion (Replicate.com), GridDB, and Node.js
+This project use OpenAI, Stable Diffusion (Replicate.com), GridDB, and Node.js. Make sure you you have access to OpenAI, Replicate.com as well as GridDB and Node.js already installed in your system.
 
 ## Run the project
 
