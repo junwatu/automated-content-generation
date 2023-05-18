@@ -1,4 +1,5 @@
 import { OpenAIApi, Configuration } from "openai"
+import { generateImageAI, getImageAIByID } from "../libs/imageai.js"
 import { logger } from '../libs/logger.js'
 import * as dotenv from 'dotenv'
 
@@ -35,9 +36,6 @@ async function generateContent(imagine) {
 			const contentData = JSON.parse(message.content)
 			const imagePrompt = contentData?.imageprompt
 			logger.info(`prompt for generate image: ${imagePrompt}`)
-
-			//do image generation request
-
 		} catch (error) {
 			logger.error(error)
 		}
