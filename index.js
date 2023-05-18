@@ -4,7 +4,6 @@ import path, { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import * as GridDB from "./libs/griddb.cjs"
 import { generateRoute } from './routes/generate.js'
-import { imageRoute } from './routes/image.js'
 import { logger } from './libs/logger.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -18,7 +17,6 @@ const port = 3000;
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/generate', generateRoute)
-app.use('/api/image', imageRoute)
 
 app.get("/", async function (req, res) {
 	res.json({ app: "automated content generation" })

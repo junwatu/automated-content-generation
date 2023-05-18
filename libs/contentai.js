@@ -1,5 +1,4 @@
 import { OpenAIApi, Configuration } from "openai"
-import { generateImageAI, getImageAIByID } from "../libs/imageai.js"
 import { logger } from '../libs/logger.js'
 import * as dotenv from 'dotenv'
 

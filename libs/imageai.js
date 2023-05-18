@@ -1,4 +1,7 @@
-
+/**
+ * Not used for this project. 
+ * It's intended for future use and scalable version of this project.
+ */
 import * as dotenv from 'dotenv'
 
 dotenv.config()
