@@ -66,17 +66,19 @@ async function containersInfo(store) {
 					// Get container information
 					store.getContainerInfo(element)
 						.then((info) => {
-							console.log("Container Info: \n💽 %s", info.name);
-							if (info.type == griddb.ContainerType.COLLECTION) {
-								console.log('📦 Type: Collection');
-							} else {
-								console.log('📦 Type: TimeSeries');
+							if (info.name === containerName) {
+								console.log("Container Info: \n💽 %s", info.name);
+								if (info.type == griddb.ContainerType.COLLECTION) {
+									console.log('📦 Type: Collection');
+								} else {
+									console.log('📦 Type: TimeSeries');
+								}
+								//console.log("rowKeyAssigned=%s", info.rowKey.toString());
+								console.log("🛢️  Column Count: %d", info.columnInfoList.length);
+								info.columnInfoList.forEach(
+									element => console.log("🔖 Column (%s, %d)", element[0], element[1])
+								);
 							}
-							//console.log("rowKeyAssigned=%s", info.rowKey.toString());
-							console.log("🛢️  Column Count: %d", info.columnInfoList.length);
-							info.columnInfoList.forEach(
-								element => console.log("🔖 Column (%s, %d)", element[0], element[1])
-							);
 						})
 				});
 				return true;
