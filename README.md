@@ -1,6 +1,6 @@
 # Automated Content Generation
 
-This project use OpenAI, Stable Diffusion (Replicate.com), GridDB, and Node.js. Make sure you you have access to OpenAI, Replicate.com as well as GridDB and Node.js already installed in your system.
+This project use OpenAI, Stable Diffusion (Deep.ai), GridDB, and Node.js. Make sure you you have access to OpenAI and Deep.ai as well as GridDB and Node.js already installed in your system.
 
 ## Run the project
 
@@ -18,8 +18,12 @@ Rename `.env.example` to `.env` and then set the API keys:
 
 ```
 OPENAI_API_KEY=
-OPENAI_API_ORG=
-REPLICATE_API_KEY=
+```
+
+Set the Deep.ai API key in `index.html`
+
+```
+deepai.setApiKey("DEEPAI_API_KEY");
 ```
 
 Run the project
