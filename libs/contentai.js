@@ -1,4 +1,5 @@
 import { OpenAIApi, Configuration } from "openai"
+import { logger } from '../libs/logger.js'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
@@ -14,7 +15,7 @@ function createContentPrompt(imagine) {
 		throw new Error("User request is required to create a content prompt.")
 	}
 
-	return `Make a short blog of fewer than 700 words with this user request:
+	return `Make a blog with 500 words minimal and 700 words maxiumum using this topic:
     \n
     ${imagine}
     \n
@@ -29,7 +30,9 @@ async function generateContent(imagine) {
 			max_tokens: 2000,
 			messages: [{ role: "user", content: prompt }],
 		});
-		return completion.data.choices[0].message;
+		const message = completion.data.choices[0].message;
+		logger.info(message);
+		return message;
 	} catch (error) {
 		console.error("Error occurred while generating content:", error)
 		return "An error occurred while generating content."
