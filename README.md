@@ -25,7 +25,7 @@ REPLICATE_API_KEY=
 Run the project
 
 ```
-npm run dev
+npm start
 ```
 
 Open the browser and got to the `http://localhost/3000`
