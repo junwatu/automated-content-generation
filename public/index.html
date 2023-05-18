@@ -8,15 +8,23 @@
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.deepai.org/deepai.min.js"></script>
   </head>
   <body>
     <div id="root" class="p-10 m-10"></div>
     <script type="text/babel">
+      /**
+       * Change this with you API key on https://deepai.org/
+       * Free first usage!
+       */
+      deepai.setApiKey("");
+
       function App() {
         const [formState, setFormState] = React.useState({ prompt: "" });
         const [result, setResult] = React.useState(null);
         const [image, setImage] = React.useState(null);
         const [isLoading, setIsLoading] = React.useState(false);
+        const [imageCover, setImageCover] = React.useState(null);
 
         const handleInputChange = (event) => {
           setFormState({
@@ -36,7 +44,20 @@
             body: JSON.stringify(formState),
           });
           const data = await response.json();
+          console.log(data);
           const dataJSON = JSON.parse(data.content.content);
+
+          try {
+            const result = await deepai.callStandardApi("text2img", {
+              text: dataJSON.imageprompt,
+              grid_size: "1",
+            });
+
+            console.log(result);
+            setImageCover(result.output_url);
+          } catch (error) {
+            console.log(error);
+          }
           setResult(dataJSON);
           setIsLoading(false);
         };
@@ -76,8 +97,16 @@
               </div>
             ) : result ? (
               <div className="mt-10">
-                <h2 className="text-2xl font-bold">{result.title}</h2>
+                <h2 className="text-2xl font-bold flex items-center">
+                  {result.title}
+                </h2>
+                <img src={imageCover} width={512} className="w-full p-10" />
                 <p className="mt-4">{result.content}</p>
+                <div className="mt-10">
+                  <button className="py-2 px-4 bg-green-500 text-white rounded shadow-sm hover:bg-green-600">
+                    Save Content
+                  </button>
+                </div>
               </div>
             ) : null}
           </div>
