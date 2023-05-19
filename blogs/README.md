@@ -154,7 +154,7 @@ Last one, open the browser with this URL `http://localhost:3000`
 
 Running the project is straightforward, but what are the mechanisms behind it?
 
-The process of automating content generation is significantly simplified with the aid of AI. ChatGPT provides a service that generates content tailored to the user's specific prompt. User will input the prompt into a designated field and click the **"Generate"** button, which transmits the prompt to a Node.js server. The server then initiates a request to the OpenAI API to process and generate the content as requested.
+The process of automating content generation is significantly simplified with the aid of AI. ChatGPT provides a service that generates content tailored to the user's specific input or we called it a **prompt**. User will input the prompt into a designated field and click the **"Generate"** button, which transmits the prompt to a Node.js server. The server then initiates a request to the OpenAI API to process and generate the content as requested.
 
 React.js makes it easy to manage user input and send the prompt data to the server for processing.
 
@@ -208,9 +208,7 @@ const data = await response.json();
 
 Enhancing engagement with our content becomes significantly more effective when we supplement our thematic material with corresponding images. With the aid of text-to-image AI technologies such as Stable Diffusion, we can easily generate images that match specified topics.
 
-As mentioned earlier, we employ third-party services like [deep.ai](https://deep.ai) which utilizes Stable Diffusion internally to generate images from text.
-
-Understanding the code is straightforward:
+As mentioned earlier, we employ third-party services like [deep.ai](https://deep.ai) which utilizes Stable Diffusion internally to generate images from text. Understanding the code to generate image from a text is straightforward:
 
 ```js
 /**
@@ -254,7 +252,7 @@ const response = await fetch("/api/content", {
 
 ### Node.js HTTP Server
 
-The Node.js HTTP server offers a set of APIs, which include:
+The Node.js HTTP server is built with express.js. The server offers a set of APIs, which include:
 
 `/api/generate`
 
@@ -271,6 +269,8 @@ This API endpoint is used to retrieve all content currently stored within the da
 `/api/content/:id`
 
 By utilizing this API endpoint, one can query for the generated content by its specific `id`.
+
+These APIs are very easy to use and have a lot of potential for further enhancement.
 
 ## Further Enhancements
 
