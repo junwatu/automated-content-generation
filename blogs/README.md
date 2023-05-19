@@ -330,7 +330,7 @@ This API endpoint is used to retrieve all content currently stored within the da
 
 By utilizing this API endpoint, one can query for the generated content by its specific `id`.
 
-These APIs are very easy to use and have a lot of potential for further enhancement.
+These APIs are very easy to use and have a lot of potential for further customization.
 
 ## Further Enhancements
 
