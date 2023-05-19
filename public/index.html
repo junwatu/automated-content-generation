@@ -17,7 +17,7 @@
        * Change this with you API key on https://deepai.org/
        * Free first usage!
        */
-      deepai.setApiKey("");
+      deepai.setApiKey("6834a5c8-ea39-446c-a3c4-1486ed713ac1");
 
       function App() {
         const [formState, setFormState] = React.useState({ prompt: "" });
@@ -25,6 +25,8 @@
         const [image, setImage] = React.useState(null);
         const [isLoading, setIsLoading] = React.useState(false);
         const [imageCover, setImageCover] = React.useState(null);
+        const [id, setId] = React.useState(null);
+        const [isSaving, setIsSaving] = React.useState(false);
 
         const handleInputChange = (event) => {
           setFormState({
@@ -44,7 +46,8 @@
             body: JSON.stringify(formState),
           });
           const data = await response.json();
-          console.log(data);
+          // sanitize JSON
+          data.content.content.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
           const dataJSON = JSON.parse(data.content.content);
 
           try {
@@ -55,11 +58,34 @@
 
             console.log(result);
             setImageCover(result.output_url);
+            setId(result.id);
           } catch (error) {
             console.log(error);
           }
           setResult(dataJSON);
           setIsLoading(false);
+        };
+
+        const saveContentHandler = async (event) => {
+          event.preventDefault();
+          setIsSaving(true);
+          // save the content
+          const content = {
+            ...result,
+            imageUrl: imageCover,
+            id,
+          };
+          const response = await fetch("/api/content", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(content),
+          });
+
+          const data = await response.json();
+          console.log(data);
+          setIsSaving(false);
         };
 
         return (
@@ -81,6 +107,7 @@
               />
               <button
                 type="submit"
+                disabled={isSaving}
                 className="py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600"
               >
                 Generate
@@ -97,13 +124,16 @@
               </div>
             ) : result ? (
               <div className="mt-10">
-                <h2 className="text-2xl font-bold flex items-center">
+                <h2 className="text-2xl font-bold flex items-center justify-center">
                   {result.title}
                 </h2>
                 <img src={imageCover} width={512} className="w-full p-10" />
                 <p className="mt-4">{result.content}</p>
                 <div className="mt-10">
-                  <button className="py-2 px-4 bg-green-500 text-white rounded shadow-sm hover:bg-green-600">
+                  <button
+                    className="py-2 px-4 bg-green-500 text-white rounded shadow-sm hover:bg-green-600"
+                    onClick={saveContentHandler}
+                  >
                     Save Content
                   </button>
                 </div>

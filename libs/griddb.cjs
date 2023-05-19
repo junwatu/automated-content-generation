@@ -1,6 +1,6 @@
 const griddb = require('griddb-node-api')
 
-const containerName = 'ContentAIGen'
+const containerName = 'AutoContentAI'
 
 const initStore = async () => {
 	const factory = griddb.StoreFactory.getInstance();
@@ -27,7 +27,8 @@ function initContainer() {
 		'columnInfoList': [
 			["id", griddb.Type.INTEGER],
 			["title", griddb.Type.STRING],
-			["content", griddb.Type.STRING]
+			["content", griddb.Type.STRING],
+			["imageUrl", griddb.Type.STRING]
 		],
 		'type': griddb.ContainerType.COLLECTION, 'rowKey': true
 	});
@@ -97,13 +98,26 @@ async function containersInfo(store) {
 	}
 }
 
+/**
+ * Insert data to GridDB
+ */
 function insert(data, container) {
 	try {
 		container.put(data);
-		return { ok: true };
+		return { status: true };
 	} catch (err) {
-		console.log(`insert: ${err}`);
-		return { ok: false, error: err };
+		if (err.constructor.name == 'GSException') {
+			for (var i = 0; i < err.getErrorStackSize(); i++) {
+				console.log("[%d]", i);
+				console.log(err.getErrorCode(i));
+				console.log(err.getMessage(i));
+			}
+
+			return { status: false, error: err };
+		} else {
+			console.log(err);
+			return { status: false, error: err };
+		}
 	}
 }
 
@@ -127,10 +141,10 @@ async function queryAll(conInfo, store) {
 
 		while (rowset.hasNext()) {
 			const row = rowset.next();
-			const rowData = { id: `${row[0]}`, news: row[1] };
+			const rowData = { id: `${row[0]}`, title: row[1], content: row[2], image: row[3] };
 			results.push(rowData);
 		}
-		return results;
+		return { results, length: results.length };
 	} catch (err) {
 		console.log(err);
 		return err;
@@ -140,7 +154,7 @@ async function queryAll(conInfo, store) {
 async function queryByID(id, conInfo, store) {
 	try {
 		const cont = await store.putContainer(conInfo)
-		const row = cont.get(parseInt(id))
+		const row = await cont.get(parseInt(id))
 		const result = [];
 		result.push(row)
 		return result;
@@ -151,7 +165,22 @@ async function queryByID(id, conInfo, store) {
 
 // Delete container
 async function dropContainer(store, containerName) {
-	store.dropContainer(containerName).then(() => { return "OK" }).catch(e => { throw new Error(e) })
+	store.dropContainer(containerName)
+		.then(() => {
+			console.log('drop ok')
+			return store.putContainer(conInfo);
+		})
+		.catch(err => {
+			if (err.constructor.name == 'GSException') {
+				for (var i = 0; i < err.getErrorStackSize(); i++) {
+					console.log("[%d]", i);
+					console.log(err.getErrorCode(i));
+					console.log(err.getMessage(i));
+				}
+			} else {
+				console.log(err);
+			}
+		})
 }
 
 module.exports = {

@@ -19,7 +19,7 @@ function createContentPrompt(imagine) {
     \n
     ${imagine}
     \n
-    The answer SHOULD be a JSON with the format {title: [insert_title], content: [insert_content], imageprompt: [summarize_content_for_image_generation]}. DO NOT answer with any context or any explanation!`;
+    The answer SHOULD be a valid JSON with the format {title: [insert_title], content: [insert_content], imageprompt: [summarize_content_for_image_generation]}. DO NOT answer with any context or any explanation, just JSON!`;
 }
 
 async function generateContent(imagine) {
@@ -27,11 +27,12 @@ async function generateContent(imagine) {
 	try {
 		const completion = await openai.createChatCompletion({
 			model: "gpt-3.5-turbo",
-			max_tokens: 2000,
+			max_tokens: 4000,
 			messages: [{ role: "user", content: prompt }],
 		});
 		const message = completion.data.choices[0].message;
 		try {
+			message.content.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
 			const contentData = JSON.parse(message.content)
 			const imagePrompt = contentData?.imageprompt
 			logger.info(`prompt for generate image: ${imagePrompt}`)
