@@ -100,30 +100,6 @@ One of the key strengths of React.js is its flexibility. Whether you're building
 
 In the following sections, we'll explore how these technologies - GPT-4, Stable Diffusion, GridDB, and Node.js - work together to create an automated content generation solution that is not only efficient, but also capable of producing high-quality, personalized content.
 
-### Technical Setup
-
-You will need a few setup before we dive into the code for automation content generation.
-
-**Node.js**
-
-You'll need to set up a development environment using Node.js. Go to https://nodejs.org to install it in your machine.
-
-> In this post we use Node.js 18.16.0 LTS version.
-
-**OpenAI**
-
-To access the GPT-4 API, an API key is required, which can be obtained from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys).
-
-> Please note: Using the OpenAI API requires setting up a billing method. This is a paid service.
-
-**Stable Diffusion**
-
-The Stable Diffusion model can be utilized through services such as [deep.ai](https://deep.ai/). One of the primary reasons for choosing this service is the ease with which we can harness the power of the Stable Diffusion model through a simple API call. Go [here](https://deepai.org/dashboard/profile) to create a token to access the DeepAI API.
-
-**GridDB**
-
-At present, GridDB is compatible with Linux-based operating systems. However, if you're utilizing Windows, you can opt for the GridDB Docker version. For detailed installation instructions, please refer to the [GridDB documentation site](https://docs.griddb.net/latest/about/what-is-griddb/).
-
 ## Full Installation The Project
 
 For the full source code you can look into this GitHub [repository](https://github.com/junwatu/automated-content-generation). To run the project, first clone the repository and then install all the dependencies.
@@ -149,6 +125,30 @@ npm start
 Last one, open the browser with this URL `http://localhost:3000` and type a specific topic for content generation.
 
 ![automated-content-generation](assets/images/automatic-cg-screenshot.png)
+
+### Technical Setup
+
+You will need a few setup before we dive into the code for automation content generation.
+
+**Node.js**
+
+You'll need to set up a development environment using Node.js. Go to https://nodejs.org to install it in your machine.
+
+> In this post we use Node.js 18.16.0 LTS version.
+
+**OpenAI**
+
+To access the GPT-4 API, an API key is required, which can be obtained from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys).
+
+> Please note: Using the OpenAI API requires setting up a billing method. This is a paid service.
+
+**Stable Diffusion**
+
+The Stable Diffusion model can be utilized through services such as [deep.ai](https://deep.ai/). One of the primary reasons for choosing this service is the ease with which we can harness the power of the Stable Diffusion model through a simple API call. Go [here](https://deepai.org/dashboard/profile) to create a token to access the DeepAI API.
+
+**GridDB**
+
+At present, GridDB is compatible with Linux-based operating systems. However, if you're utilizing Windows, you can opt for the GridDB Docker version. For detailed installation instructions, please refer to the [GridDB documentation site](https://docs.griddb.net/latest/about/what-is-griddb/).
 
 ## Let's Code!
 
