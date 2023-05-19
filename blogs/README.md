@@ -343,7 +343,7 @@ This automated content generation web application is currently a simple Minimum 
 
 AI simplifies the process of web application development. When AI is integrated into web development, it often ventures into a new domain known as Generative AI application development. The key to success in generative AI development is utilizing the right prompts.
 
-## References & Resources
+## References
 
 1. [GPT-4 - Wikipedia](https://en.wikipedia.org/wiki/GPT-4)
 2. [GPT-4 - OpenAI Product](http://openai.com/product/gpt-4)
