@@ -26,6 +26,7 @@ async function generateContent(imagine) {
 	const prompt = createContentPrompt(imagine)
 	try {
 		const completion = await openai.createChatCompletion({
+			// If you have GPT-4 API access, change the model gpt-4
 			model: "gpt-3.5-turbo",
 			max_tokens: 4000,
 			messages: [{ role: "user", content: prompt }],
