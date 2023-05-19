@@ -1,4 +1,4 @@
-# [DRAFT] Automated Website Content Generation using ChatGPT, Stable Diffusion, GridDB, and Node.js
+# Automated Website Content Generation using ChatGPT, Stable Diffusion, GridDB, and Node.js
 
 In today's digital era, the creation of high-quality, engaging, and relevant content has become crucial for businesses and organizations to attract and retain their target audience. Content generation involves a wide range of activities, from writing articles and blog posts to crafting social media updates and marketing materials. As the demand for content continues to grow, manual content creation can become increasingly time-consuming and labor-intensive, often leading to delays and inconsistencies in output quality.
 
@@ -70,7 +70,7 @@ The system we will build can be explained using the general system diagram below
 
 ![auto-generated-content-system](assets/images/auto-generated-content.png)
 
-The generated content depends on the user's input prompt. The user input interface is provided by a React.js web application. Internally, JavaScript will make an API call to OpenAI to generate the content text. It will also make a request to the Stable Diffusion model on Replicate to generate an image.
+The generated content depends on the user's input prompt. The user input interface is provided by a React.js web application. Internally, JavaScript will make an API call to OpenAI to generate the content text. It will also make a request to the Stable Diffusion model on Deep.ai to generate an image.
 
 Subsequently, the produced text and image are stored in GridDB. The stored data is then rendered for display via the node.js server application.
 
@@ -84,7 +84,7 @@ When it comes to GPT-4-based content generation, these capabilities translate in
 
 ### Stable Diffusion for Image Generation
 
-Stable Diffusion is used for generating images automatically for website content. We employ the [Replicate](replicate.com) website for image generation because hosting Stable Diffusion on a standalone PC or cloud can be tedious and expensive. It is simpler to use an API call from Replicate instead.
+Stable Diffusion is used for generating images automatically for website content. We employ the [Deep.ai](deep.ai) website for image generation because hosting Stable Diffusion on a standalone PC or cloud can be tedious and expensive. It is simpler to use an API call from Deep.ai instead.
 
 ### GridDB for efficient data storage
 
@@ -120,15 +120,13 @@ To access the GPT-4 API, an API key is required, which can be obtained from [htt
 
 **Stable Diffusion**
 
-The Stable Diffusion model can be utilized through services such as [replicate.com](https://replicate.com/). One of the primary reasons for choosing this service is the ease with which we can harness the power of the Stable Diffusion model through a simple API call. Go [here](https://replicate.com/account/api-tokens) to create a token to access the Replicate API.
+The Stable Diffusion model can be utilized through services such as [deep.ai](https://deep.ai/). One of the primary reasons for choosing this service is the ease with which we can harness the power of the Stable Diffusion model through a simple API call. Go [here](https://deepai.org/dashboard/profile) to create a token to access the DeepAI API.
 
 **GridDB**
 
 At present, GridDB is compatible with Linux-based operating systems. However, if you're utilizing Windows, you can opt for the GridDB Docker version. For detailed installation instructions, please refer to the [GridDB documentation site](https://docs.griddb.net/latest/about/what-is-griddb/).
 
-## Let's Code!
-
-### Run The Project
+## Full Installation The Project
 
 For the full source code you can look into this GitHub [repository](https://github.com/junwatu/automated-content-generation). To run the project, first clone the repository and then install all the dependencies.
 
@@ -138,33 +136,154 @@ git clone https://github.com/junwatu/automated-content-generation.git
 cd automated-content-generation
 ```
 
-after that make sure you rename file `env.local.example` to `env.local` and then set every API keys there. To run the project type this simple command
+after that make sure you rename file `env.local.example` to `env.local` and then set OpenAI API key there and don't forget to change Deep.ai key in `index.html` file.
+
+```js
+deepai.setApiKey("your_api_key");
+```
+
+To run the project type this simple command
 
 ```
-npm run dev
+npm start
 ```
 
-Last one, open the browser with this URL `http://localhost:2112`
+Last one, open the browser with this URL `http://localhost:3000`
 
 ![automated-content-generation](assets/images/automatic-cg-screenshot.png)
 
----
+## Let's Code!
 
-VII. Future Prospects
+Running the project is straightforward, but what are the mechanisms behind it?
 
-A. Potential advancements in the technologies
+The process of automating content generation is significantly simplified with the aid of AI. ChatGPT provides a service that generates content tailored to the user's specific prompt. User will input the prompt into a designated field and click the **"Generate"** button, which transmits the prompt to a Node.js server. The server then initiates a request to the OpenAI API to process and generate the content as requested.
 
-B. Emerging trends in content generation
+React.js makes it easy to manage user input and send the prompt data to the server for processing.
 
-C. Opportunities for further research and development
+### Content Generation
 
-VIII. Conclusion
+```html
+<form
+  onSubmit="{handleSubmit}"
+  className="flex flex-col md:flex-row md:items-center gap-4 m-5"
+>
+  <input
+    type="text"
+    name="prompt"
+    value="{formState.prompt}"
+    onChange="{handleInputChange}"
+    className="flex-grow py-2 px-4 border border-gray-300 rounded shadow-sm"
+    placeholder="What's the topic and key messages you want in your content?"
+  />
+  <button
+    type="submit"
+    disabled="{isSaving}"
+    className="py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600"
+  >
+    Generate
+  </button>
+</form>
+```
 
-A. Recap of the solution and its benefits
+The prompt data itself follows this format:
 
-B. Encouragement to adopt the automated content generation approach
+```json
+{
+  "prompt": "Artificial Intelligence and the safety of the future human workforce"
+}
+```
 
-C. The potential impact on the future of website content management
+With the given prompt data, we can generate content by making a request to the `/api/generate` endpoint.
+
+```js
+const response = await fetch("/api/generate", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(formState),
+});
+const data = await response.json();
+```
+
+### Image Generation
+
+Enhancing engagement with our content becomes significantly more effective when we supplement our thematic material with corresponding images. With the aid of text-to-image AI technologies such as Stable Diffusion, we can easily generate images that match specified topics.
+
+As mentioned earlier, we employ third-party services like [deep.ai](https://deep.ai) which utilizes Stable Diffusion internally to generate images from text.
+
+Understanding the code is straightforward:
+
+```js
+/**
+ * Replace this with your API key on https://deepai.org/
+ * First usage is free!
+ */
+deepai.setApiKey("6834a5c8-ea39-446c-a3c4-1486ed713ac1");
+
+const result = await deepai.callStandardApi("text2img", {
+  text: dataJSON.imageprompt,
+  grid_size: "1",
+});
+```
+
+The text used as the input for image generation, `dataJSON.imageprompt`, originates from the ChatGPT content generation.
+
+### Saving Content to GridDB
+
+The final output of the content is data in JSON format, as illustrated below:
+
+```json
+{
+  "id": "24",
+  "title": "Why working from home is the future of work",
+  "content": "500 words content is here",
+  "imageUrl": "https://image.url.is.here/xyz.jpg"
+}
+```
+
+You can save this JSON data to the GridDB database by clicking the **Save Content** button. The process of saving the data is straightforward, typically involving just an API call.
+
+```js
+const response = await fetch("/api/content", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(content),
+});
+```
+
+### Node.js HTTP Server
+
+The Node.js HTTP server offers a set of APIs, which include:
+
+`/api/generate`
+
+This API endpoint is designed to generate content using the capabilities of ChatGPT (GPT3.5 or GPT-4).
+
+`/api/content`
+
+This API endpoint serves to store the generated content data within the GridDB database.
+
+`/api/contents`
+
+This API endpoint is used to retrieve all content currently stored within the database.
+
+`/api/content/:id`
+
+By utilizing this API endpoint, one can query for the generated content by its specific `id`.
+
+## Further Enhancements
+
+This automated content generation web application is currently a simple Minimum Viable Product (MVP). There are several enhancements that could significantly improve this web app:
+
+- Enhance the user interface for better usability.
+- Incorporate user management features.
+- Implement pricing tiers for monetization.
+- Utilize containerization technologies like Docker and Kubernetes. This would enable our services to be deployed, managed, and scaled with ease and reliability across any infrastructure.
+
+AI simplifies the process of web application development. When AI is integrated into web development, it often ventures into a new domain known as Generative AI application development. The key to success in generative AI development is utilizing the right prompts.
 
 ## References & Resources
 
