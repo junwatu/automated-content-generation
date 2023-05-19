@@ -306,7 +306,7 @@ const prompt = `Craft a blog post with a minimum of 500 words and a maximum of 7
     The response MUST be a valid JSON object in the format {title: [insert_title], content: [insert_content], imageprompt: [summarize_content_for_image_generation]}. Please avoid including any context or explanation, just provide the JSON object.`;
 ```
 
-The prompt guides ChatGPT to generate content, using as a basis the topic provided by the user.
+The prompt guides ChatGPT to generate content, using as a basis the topic provided by the user. To get the best result and specific output, it's best to make an experimental with different prompts.
 
 By default, this project uses GPT-3.5 for content generation, but it's straightforward to switch the model to GPT-4. The significant differences between GPT-3.5 and GPT-4 lie in the latter's superior reasoning capabilities and higher token limit, which results in an increased maximum word count.
 
