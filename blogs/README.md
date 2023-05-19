@@ -146,7 +146,7 @@ To run the project type this simple command
 npm start
 ```
 
-Last one, open the browser with this URL `http://localhost:3000`
+Last one, open the browser with this URL `http://localhost:3000` and type a specific topic for content generation.
 
 ![automated-content-generation](assets/images/automatic-cg-screenshot.png)
 
@@ -156,9 +156,11 @@ Running the project is straightforward, but what are the mechanisms behind it?
 
 The process of automating content generation is significantly simplified with the aid of AI. ChatGPT provides a service that generates content tailored to the user's specific input or we called it a **prompt**. User will input the prompt into a designated field and click the **"Generate"** button, which transmits the prompt to a Node.js server. The server then initiates a request to the OpenAI API to process and generate the content as requested.
 
-React.js makes it easy to manage user input and send the prompt data to the server for processing.
-
 ### Content Generation
+
+The user interface for this web application is a single page using React.js and Tailwind CSS. For easy prototyping both library provide by CDN. React.js makes it easy to manage user input and send the prompt data to the server for processing.
+
+If you look at the code below, any user data input will be handled by event handler `handleSubmit`.
 
 ```html
 <form
@@ -183,7 +185,7 @@ React.js makes it easy to manage user input and send the prompt data to the serv
 </form>
 ```
 
-The prompt data itself follows this format:
+The prompt data itself follows this JSON format:
 
 ```json
 {
@@ -191,7 +193,7 @@ The prompt data itself follows this format:
 }
 ```
 
-With the given prompt data, we can generate content by making a request to the `/api/generate` endpoint.
+With the given prompt data, we can generate content by making a simple request to the `/api/generate` endpoint.
 
 ```js
 const response = await fetch("/api/generate", {
@@ -204,16 +206,18 @@ const response = await fetch("/api/generate", {
 const data = await response.json();
 ```
 
+The API request result is a JSON data that's easy to process and to display with the help React.js library. One important key from this JSON is `imageprompt`, which further we use it as a prompt for generate image.
+
 ### Image Generation
 
-Enhancing engagement with our content becomes significantly more effective when we supplement our thematic material with corresponding images. With the aid of text-to-image AI technologies such as Stable Diffusion, we can easily generate images that match specified topics.
+Enhancing engagement with our content becomes exponentially more effective when we integrate our thematic material with relevant images. With the help of text-to-image AI technologies such as Stable Diffusion, we can effortlessly generate images corresponding to specific topics.
 
-As mentioned earlier, we employ third-party services like [deep.ai](https://deep.ai) which utilizes Stable Diffusion internally to generate images from text. Understanding the code to generate image from a text is straightforward:
+As previously discussed, we utilize third-party services like [deep.ai](https://deep.ai), which internally leverages Stable Diffusion to transform text into images. Invoking the deep.ai text-to-image API is quite straightforward:
 
 ```js
 /**
- * Replace this with your API key on https://deepai.org/
- * First usage is free!
+ * Replace this with your API key at https://deepai.org/
+ * Initial usage is complimentary!
  */
 deepai.setApiKey("6834a5c8-ea39-446c-a3c4-1486ed713ac1");
 
@@ -223,11 +227,11 @@ const result = await deepai.callStandardApi("text2img", {
 });
 ```
 
-The text used as the input for image generation, `dataJSON.imageprompt`, originates from the ChatGPT content generation.
+The `imageprompt` value, which is the text used for image generation, serves as the prompt to generate images from text originally produced by ChatGPT. Please be aware that the default image size for deep.ai's text-to-image output is 512px. This information is crucial if you intend to crop, resize, or align the image dimensions with your UI design.
 
 ### Saving Content to GridDB
 
-The final output of the content is data in JSON format, as illustrated below:
+The final output of the content generation process is data in JSON format, as illustrated below:
 
 ```json
 {
@@ -238,7 +242,7 @@ The final output of the content is data in JSON format, as illustrated below:
 }
 ```
 
-You can save this JSON data to the GridDB database by clicking the **Save Content** button. The process of saving the data is straightforward, typically involving just an API call.
+This JSON data can be saved to the GridDB database by clicking on the **Save Content** button. The data-saving process is relatively straightforward and usually requires only a single API call.
 
 ```js
 const response = await fetch("/api/content", {
@@ -250,9 +254,65 @@ const response = await fetch("/api/content", {
 });
 ```
 
+On the server side, this data is directly stored in the database using the `insert` function:
+
+```js
+/**
+ * Insert data into GridDB
+ */
+function insert(data, container) {
+  try {
+    container.put(data);
+    return { status: true };
+  } catch (err) {
+    if (err.constructor.name == "GSException") {
+      for (var i = 0; i < err.getErrorStackSize(); i++) {
+        console.log("[%d]", i);
+        console.log(err.getErrorCode(i));
+        console.log(err.getMessage(i));
+      }
+
+      return { status: true, error: err };
+    } else {
+      console.log(err);
+      return { status: false, error: err };
+    }
+  }
+}
+```
+
+Please note, you should verify the data type of `data` before saving. In this project, the table consists of four fields:
+
+```js
+[
+  ["id", griddb.Type.INTEGER],
+  ["title", griddb.Type.STRING],
+  ["content", griddb.Type.STRING],
+  ["imageUrl", griddb.Type.STRING],
+];
+```
+
+Ensure that the `id` field is of `INTEGER` type (you can use `parseInt` in JavaScript for this), and the rest of the fields are `STRING` types. There are others APIs to query and get all posts for further development.
+
 ### Node.js HTTP Server
 
-The Node.js HTTP server is built with express.js. The server offers a set of APIs, which include:
+Building a server using Node.js and Express.js is a straightforward process. By integrating the OpenAI API and GridDB, we can develop a simple yet intelligent server that automatically generates content. Content generation strictly follows the prompt provided below:
+
+```js
+const prompt = `Craft a blog post with a minimum of 500 words and a maximum of 700 words based on the following topic:
+    \n
+    ${imagine}
+    \n
+    The response MUST be a valid JSON object in the format {title: [insert_title], content: [insert_content], imageprompt: [summarize_content_for_image_generation]}. Please avoid including any context or explanation, just provide the JSON object.`;
+```
+
+The prompt guides ChatGPT to generate content, using as a basis the topic provided by the user.
+
+By default, this project uses GPT-3.5 for content generation, but it's straightforward to switch the model to GPT-4. The significant differences between GPT-3.5 and GPT-4 lie in the latter's superior reasoning capabilities and higher token limit, which results in an increased maximum word count.
+
+**API**
+
+The server offers a set of APIs, which include:
 
 `/api/generate`
 
@@ -287,13 +347,7 @@ AI simplifies the process of web application development. When AI is integrated 
 
 1. [GPT-4 - Wikipedia](https://en.wikipedia.org/wiki/GPT-4)
 2. [GPT-4 - OpenAI Product](http://openai.com/product/gpt-4)
-3. [GPT-4 - OpenAI Research](https://openai.com/research/gpt-4)
-4. [Stable Diffusion - Wikipedia](https://en.wikipedia.org/wiki/Stable_Diffusion)
-5. [Stable Diffusion Online](https://stablediffusionweb.com/)
-6. [Stable Diffusion AI: What it is and How it Works](https://nimblebox.ai/blog/stable-diffusion-ai)
-7. [How to Run Stable Diffusion on Your PC to Generate AI Images](https://www.howtogeek.com/830179/how-to-run-stable-diffusion-on-your-pc-to-generate-ai-images/)
-8. [GridDB System Properties - DB-Engines](https://db-engines.com/en/system/GridDB)
-9. [GridDB: Open Source Time Series Database for IoT](https://griddb.net/en/docs/documents/6-5_migration-from-other-databases.php)
-10. [GridDB FAQ's Documentation](https://docs.griddb.net/about/faq/)
-11. [What is GridDB?](https://docs.griddb.net/)
-12. [NoSQL Database for IoT Using GridDB Developers](https://www.griddb.net/)
+3. [Stable Diffusion - Wikipedia](https://en.wikipedia.org/wiki/Stable_Diffusion)
+4. [Stable Diffusion Online](https://stablediffusionweb.com/)
+5. [How to Run Stable Diffusion on Your PC to Generate AI Images](https://www.howtogeek.com/830179/how-to-run-stable-diffusion-on-your-pc-to-generate-ai-images/)
+6. [NoSQL Database for IoT Using GridDB Developers](https://www.griddb.net/)
