@@ -312,7 +312,7 @@ By default, this project uses GPT-3.5 for content generation, but it's straightf
 
 **API**
 
-The server offers a set of APIs, which include:
+The Node.js HTTP server offers a set of APIs, which include:
 
 `/api/generate`
 
