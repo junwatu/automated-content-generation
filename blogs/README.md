@@ -70,9 +70,7 @@ The system we will build can be explained using the general system diagram below
 
 ![auto-generated-content-system](assets/images/auto-generated-content.png)
 
-The generated content depends on the user's input prompt. The user input interface is provided by a React.js web application. Internally, JavaScript will make an API call to OpenAI to generate the content text. It will also make a request to the Stable Diffusion model on Deep.ai to generate an image.
-
-Subsequently, the produced text and image are stored in GridDB. The stored data is then rendered for display via the node.js server application.
+The generated content depends on the user's input prompt. The user input interface is provided by a React.js web application. Internally, JavaScript will make an API call to OpenAI to generate the content text. It will also make a request to the Stable Diffusion model on deep.ai to generate an image. Subsequently, the produced text and image are stored in GridDB. The stored data is then rendered for display via the node.js server application.
 
 ### GPT-4-based Content Generation
 
@@ -84,7 +82,7 @@ When it comes to GPT-4-based content generation, these capabilities translate in
 
 ### Stable Diffusion for Image Generation
 
-Stable Diffusion is used for generating images automatically for website content. We employ the [Deep.ai](deep.ai) website for image generation because hosting Stable Diffusion on a standalone PC or cloud can be tedious and expensive. It is simpler to use an API call from Deep.ai instead.
+Stable Diffusion is used for generating images automatically for website content. We employ the [deep.ai](deep.ai) website for image generation because hosting Stable Diffusion on a standalone PC or cloud can be tedious and expensive. It is simpler to use an API call from deep.ai instead.
 
 ### GridDB for efficient data storage
 
@@ -136,7 +134,7 @@ git clone https://github.com/junwatu/automated-content-generation.git
 cd automated-content-generation
 ```
 
-after that make sure you rename file `env.local.example` to `env.local` and then set OpenAI API key there and don't forget to change Deep.ai key in `index.html` file.
+after that make sure you rename file `env.local.example` to `env.local` and then set OpenAI API key there and don't forget to change deep.ai key in `index.html` file.
 
 ```js
 deepai.setApiKey("your_api_key");
