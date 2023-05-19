@@ -110,7 +110,7 @@ git clone https://github.com/junwatu/automated-content-generation.git
 cd automated-content-generation
 ```
 
-after that make sure you rename file `env.local.example` to `env.local` and then set OpenAI API key there and don't forget to change deep.ai key in `index.html` file.
+after that make sure you rename file `env.example` to `env` and then set OpenAI API key there and don't forget to change deep.ai key in `index.html` file.
 
 ```js
 deepai.setApiKey("your_api_key");
